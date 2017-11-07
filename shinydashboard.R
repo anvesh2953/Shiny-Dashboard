@@ -2,6 +2,7 @@ library(leaflet)
 library(shiny)
 library(shinydashboard)
 #This is Cool
+a<-1
 df<-read.csv("test_setting.csv")
 df2<-read.csv("testdata_SparkOutput.csv")
 
