@@ -1,20 +1,10 @@
 library(leaflet)
 library(shiny)
 library(shinydashboard)
-<<<<<<< HEAD
 # Reading Files 
-df<-read.csv("test_setting_updated.csv")
-=======
-
-
-
-#This is cool
-
-
-df<-read.csv("test_setting.csv")
->>>>>>> origin/master
-df2<-read.csv("testdata_SparkOutput.csv")
-df$date<-as.Date(df$timestamp)
+df<-read.csv("DashboardData_SparkOutput.csv")
+#df2<-read.csv("testdata_SparkOutput.csv")
+df$date<-as.Date(as.character(df$Date),"%Y%m%d")
 # --- Read Files
 
 # Convert Latitude and Longitude into numeric in order to pass it into leaflet(Map)
@@ -29,12 +19,12 @@ percent_pass_LTS_STA<-(pass_tests_LTE_STA/num_tests_LTE_STA)*100
 #----Tests passed??
 
 # Average ul,dl,Motime caliculation
-avg_ul<-mean(df2$ultime,na.rm = TRUE)
-avg_dl<-mean(df2$dltime,na.rm = TRUE)
-avg_ping<-mean(df2$Pingtime,na.rm = TRUE)
-avg_mo<-mean(df2$motime,na.rm = TRUE)
-avg_mt<-mean(df2$mttime,na.rm = TRUE)
-avg_tot<-mean(df2$totaltime,na.rm = TRUE)
+avg_ul<-mean(df$ultime,na.rm = TRUE)
+avg_dl<-mean(df$dltime,na.rm = TRUE)
+avg_ping<-mean(df$Pingtime,na.rm = TRUE)
+avg_mo<-mean(df$motime,na.rm = TRUE)
+#avg_mt<-mean(df$mttime,na.rm = TRUE)
+#avg_tot<-mean(df$totaltime,na.rm = TRUE)
 # caliculated
 
 
@@ -102,7 +92,7 @@ server <- function(input, output) {
   output$mymap <- renderLeaflet({
     leaflet(data = df[df$date<=input$date[2] & df$date>=input$date[1] & df[,input$signal]==input$status,]) %>%
       addTiles() %>%  # Add default OpenStreetMap map tiles
-      addMarkers(lng= ~Longitude, lat=~Latitude, popup = ~StationaryTestID2)
+      addMarkers(lng= ~Longitude, lat=~Latitude, popup = ~StationaryTestID)
   })
   output$text1=renderText(avg_ul)
   output$text2=renderText(avg_dl)
@@ -111,8 +101,8 @@ server <- function(input, output) {
   output$avg_mt=renderText(avg_mt)
   output$avg_tot=renderText(avg_tot)
   
-  output$bar=renderPlot(barplot(c(avg_ul,avg_dl,avg_ping,avg_mo,avg_mt,avg_tot), names = c("UL Time","DL_Time","Ping_Time",
-                                                                     "MO_Time","MT_Time","Total_Time"),
+  output$bar=renderPlot(barplot(c(avg_ul,avg_dl,avg_ping,avg_mo), names = c("UL Time","DL_Time","Ping_Time",
+                                                                     "MO_Time"),
           xlab = "Times", ylab = "Avg times", col = "lightblue",
           main = "Avg_Times"))
   
