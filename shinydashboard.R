@@ -4,14 +4,6 @@ library(shinydashboard)
 
 # Reading Files 
 df<-read.csv("test_setting_updated.csv")
-=======
-
-
-
-#This is cool
-
-
-
 df2<-read.csv("testdata_SparkOutput.csv")
 df$date<-as.Date(df$timestamp)
 # --- Read Files
