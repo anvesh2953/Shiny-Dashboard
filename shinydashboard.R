@@ -1,7 +1,6 @@
 library(leaflet)
 library(shiny)
 library(shinydashboard)
-<<<<<<< HEAD
 # Reading Files 
 df<-read.csv("DashboardData_SparkOutput.csv")
 #df2<-read.csv("testdata_SparkOutput.csv")
