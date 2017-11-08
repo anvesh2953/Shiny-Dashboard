@@ -1,7 +1,7 @@
 library(leaflet)
 library(shiny)
 library(shinydashboard)
-<<<<<<< HEAD
+
 # Reading Files 
 df<-read.csv("test_setting_updated.csv")
 =======
@@ -11,8 +11,7 @@ df<-read.csv("test_setting_updated.csv")
 #This is cool
 
 
-df<-read.csv("test_setting.csv")
->>>>>>> origin/master
+
 df2<-read.csv("testdata_SparkOutput.csv")
 df$date<-as.Date(df$timestamp)
 # --- Read Files
