@@ -1,10 +1,18 @@
 library(leaflet)
 library(shiny)
 library(shinydashboard)
+<<<<<<< HEAD
 # Reading Files 
 df<-read.csv("DashboardData_SparkOutput.csv")
 #df2<-read.csv("testdata_SparkOutput.csv")
 df$date<-as.Date(as.character(df$Date),"%Y%m%d")
+=======
+
+# Reading Files 
+df<-read.csv("test_setting_updated.csv")
+df2<-read.csv("testdata_SparkOutput.csv")
+df$date<-as.Date(df$timestamp)
+>>>>>>> origin/master
 # --- Read Files
 
 # Convert Latitude and Longitude into numeric in order to pass it into leaflet(Map)
