@@ -51,38 +51,67 @@ ui <- dashboardPage(
                   )),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("LTE Stationary", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Signals", tabName = "widgets", icon = icon("th"))
+      menuItem("STATIONARY", tabName = "l", icon = icon("th"),
+               menuSubItem('LTE',
+                           tabName = "STALTE",
+                           icon = icon("dashboard")),
+               menuSubItem('UMTS',
+                           tabName = "STAUMTS",
+                           icon = icon("dashboard"))
+               ),
+      menuItem("Mobility", tabName = "widgets", icon = icon("th"),
+               menuSubItem('LTE',
+                           tabName = "MOBLTE",
+                           icon = icon("dashboard")),
+               menuSubItem('UMTS',
+                           tabName = "MOBUMTS",
+                           icon = icon("dashboard"))
+               )
     )
   ),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
+      tabItem(tabName = "STALTE",fluidRow(
+        # A static infoBox
+        # Dynamic infoBoxes
+        infoBoxOutput("progressBox"),
+        infoBoxOutput("approvalBox")
+      ),
               fluidPage(leafletOutput("mymap"),
-                        box(selectInput("signal","Signal",c("PDLColor","PINGColor","PULColor","MOColor","MTColor"),selected = "PDLColor"),
+                        absolutePanel(id = "controls", class = "panel panel-default", fixed = TRUE,
+                                      draggable = TRUE, top = 175, left = "auto", right = 20, bottom = "auto",
+                                      width = 330, height = "auto",selectInput("signal","Signal",c("PDLColor","PULColor","MOColor","MTColor","SINRColor","RSRPColor","RSRQColor"),selected = "PDLColor"),
                             selectInput("status","Status",c("GREEN","RED","YELLOW"),selected = "GREEN"),
                             dateRangeInput("date", strong("Date range"), start = "2017-11-01", end = "2017-11-07", min = "2017-10-29", max = "2017-11-07")),
-                        box(title=tags$b("LTE Stationary Sites Tested/Passed"),tableOutput("table")),
+                        
                         box(plotOutput("bar"))
                 
               )
       ),
       
       # Second tab content
-      tabItem(tabName = "widgets",
-              fluidPage(
-                box(plotOutput("rsrp")) 
-                        
-              )
-      )
+      tabItem("STAUMTS", "Stationary UMTS tab content"),
+      tabItem("MOBLTE", "Mobility LTE tab content"),
+      tabItem("MOBUMTS", "Mobility UMTS tab content")
     )
   )
 )
 
 #Server Code (essential for Shiny)
 server <- function(input, output) {
-  
+  output$progressBox <- renderInfoBox({
+    infoBox(
+      "Number of Sites", num_tests_LTE_STA, icon = icon("list"),
+      color = "purple"
+    )
+  })
+  output$approvalBox <- renderInfoBox({
+    infoBox(
+      "Percentage of Sites Passed", paste0(percent_pass_LTS_STA, "%"), icon = icon("thumbs-up", lib = "glyphicon"),
+      color = "yellow"
+    )
+  })
   
  df1<- data.frame("No. of Tests"=num_tests_LTE_STA,"Passed tests"=pass_tests_LTE_STA,"Percent of passed tests"=percent_pass_LTS_STA)
 
